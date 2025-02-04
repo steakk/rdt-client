@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver-es';
 import { Torrent } from '../models/torrent.model';
 import { TorrentService } from '../torrent.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-torrent',
@@ -47,9 +48,27 @@ export class TorrentComponent implements OnInit {
 
   public updating: boolean;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private torrentService: TorrentService) {}
+  constructor(private titleService Title, private activatedRoute: ActivatedRoute, private router: Router, private torrentService: TorrentService) {}
 
   ngOnInit(): void {
+    this.ngOnInit_old(); // Call the original method
+  
+    this.torrentService.update$.subscribe((torrents) => {
+      this.update(torrents);
+  
+      // Find the currently downloading torrent
+      const downloadingTorrent = torrents.find(t => t.rdStatus === 2);
+      if (downloadingTorrent) {
+        const progress = downloadingTorrent.rdProgress.toFixed(2);
+        const speed = downloadingTorrent.rdSpeed || 0;
+        this.titleService.setTitle(`Downloading: ${progress}% (${speed}/s)`);
+      } else {
+        this.titleService.setTitle('RDT Client');
+      }
+    });
+  }
+  
+  ngOnInit_old(): void {
     this.activatedRoute.params.subscribe((params) => {
       const torrentId = params['id'];
 
