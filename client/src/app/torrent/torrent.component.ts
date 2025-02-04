@@ -48,7 +48,7 @@ export class TorrentComponent implements OnInit {
 
   public updating: boolean;
 
-  constructor(private titleService Title, private activatedRoute: ActivatedRoute, private router: Router, private torrentService: TorrentService) {}
+  constructor(private titleService: Title, private activatedRoute: ActivatedRoute, private router: Router, private torrentService: TorrentService) {}
 
   ngOnInit(): void {
     this.ngOnInit_old(); // Call the original method
