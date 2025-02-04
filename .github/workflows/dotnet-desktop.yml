@@ -3,12 +3,11 @@ name: Build and Test
 on:
   push:
     branches:
-      - master
-      - update-title-with-download-progress  # Add your branch name here
+      - '**'  # This runs the action for all branches
   pull_request:
     branches:
-      - master
-
+      - '**'  # This runs the action for all branches
+      
 jobs:
   build:
     runs-on: ubuntu-latest
